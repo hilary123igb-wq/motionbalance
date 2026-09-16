@@ -2,3 +2,5 @@
 data/raw/*.json
 __pycache__/
 *.pyc
+*.duckdb
+.DS_Store
