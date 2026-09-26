@@ -4,12 +4,12 @@ import { playfair } from "@/lib/fonts";
 import Nav from "@/components/Nav";
 import SectionLabel from "@/components/SectionLabel";
 import StatGrid from "@/components/StatGrid";
-import BellCurve from "@/components/BellCurve";
 import ComparisonRow from "@/components/ComparisonRow";
 import CommonKeywords from "@/components/CommonKeywords";
 import TopicDonut from "@/components/TopicDonut";
 import TopicTrendsChart from "@/components/TopicTrendsChart";
 import TopicPositionHeatmap from "@/components/TopicPositionHeatmap";
+import PositionBalancePanel from "@/components/PositionBalancePanel";
 import { BarChart } from "@/components/Charts";
 import StrengthBandChart from "@/components/StrengthBandChart";
 import { topKeywords } from "@/lib/keywords";
@@ -177,8 +177,6 @@ export default function AnalyticsPage() {
           separately from whatever the position itself is worth on average.
         </p>
 
-        <BellCurve positionStats={data.position_stats} className="max-w-2xl mb-6" />
-
         <StatGrid stats={overviewStats} />
 
         <div className="mt-10">
@@ -264,6 +262,10 @@ export default function AnalyticsPage() {
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
             <TopicDonut topics={topics} />
+            <PositionBalancePanel rows={positionTopicHeatmap} />
+          </div>
+
+          <div className="mb-6">
             <TopicPositionHeatmap rows={positionTopicHeatmap} />
           </div>
 

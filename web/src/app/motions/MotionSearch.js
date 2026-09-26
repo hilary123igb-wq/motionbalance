@@ -2,6 +2,7 @@
 import DOMPurify from "isomorphic-dompurify";
 import { useMemo, useState } from "react";
 import { colorForTopic } from "@/lib/topicColors";
+import { playfair } from "@/lib/fonts";
 
 const UNCLASSIFIED = "__unclassified__";
 
@@ -45,8 +46,8 @@ export default function MotionSearch({ motions }) {
 
   return (
     <div>
-      <div className="flex flex-col sm:flex-row gap-3 mb-8">
-        <div className="relative flex-1">
+      <div className="mb-8">
+        <div className="relative mb-4">
           <input
             type="text"
             placeholder="Search motions..."
@@ -61,18 +62,33 @@ export default function MotionSearch({ motions }) {
         </div>
 
         {hasTopics && (
-          <select
-            value={topicFilter}
-            onChange={(e) => setTopicFilter(e.target.value)}
-            className="bg-white border border-gray-200 rounded-full px-5 py-3 text-sm text-gray-600 outline-none focus:ring-2 focus:ring-indigo-200 sm:w-56"
-          >
-            <option value="">All topics</option>
+          <div className="flex flex-wrap gap-2">
+            <button
+              type="button"
+              onClick={() => setTopicFilter("")}
+              className={
+                topicFilter === ""
+                  ? "px-4 py-1.5 rounded-full text-xs font-medium bg-indigo-500 text-white transition"
+                  : "px-4 py-1.5 rounded-full text-xs font-medium bg-white border border-gray-200 text-gray-600 hover:border-indigo-200 hover:text-indigo-600 transition"
+              }
+            >
+              All topics
+            </button>
             {topicOptions.map((opt) => (
-              <option key={opt.value} value={opt.value}>
-                {opt.label} ({opt.n})
-              </option>
+              <button
+                type="button"
+                key={opt.value}
+                onClick={() => setTopicFilter(opt.value)}
+                className={
+                  topicFilter === opt.value
+                    ? "px-4 py-1.5 rounded-full text-xs font-medium bg-indigo-500 text-white transition"
+                    : "px-4 py-1.5 rounded-full text-xs font-medium bg-white border border-gray-200 text-gray-600 hover:border-indigo-200 hover:text-indigo-600 transition"
+                }
+              >
+                {opt.label} <span className="opacity-60">{opt.n}</span>
+              </button>
             ))}
-          </select>
+          </div>
         )}
       </div>
 
@@ -84,38 +100,48 @@ export default function MotionSearch({ motions }) {
           const isOpen = expanded.has(key);
           return (
             <div key={key} className="bg-white border border-gray-100 rounded-2xl shadow-sm p-5 hover:border-indigo-200 transition">
-              <div className="flex items-center justify-between mb-2">
-                <span className="text-xs font-medium text-gray-400">
-                  {m.tournament_name} · Round {m.round_seq}
-                  {m.stage !== "P" ? " · Break round" : ""}
-                </span>
-                <span className="text-xs text-gray-400 whitespace-nowrap">{m.n_debates} debates</span>
-              </div>
-              <p className="text-gray-900 font-medium leading-snug mb-2">{m.text}</p>
-              {hasTopics && (
-                <span
-                  className="inline-flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded-full mb-2"
-                  style={{
-                    backgroundColor: `${colorForTopic(m.topic)}1a`,
-                    color: colorForTopic(m.topic),
-                  }}
-                >
-                  <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: colorForTopic(m.topic) }} />
-                  {m.topic || "Unclassified"}
-                </span>
-              )}
-              {m.info_slide && (
-                <button onClick={() => toggle(key)} className="text-xs text-gray-400 hover:text-indigo-500">
-                  {isOpen ? "Hide infoslide ↑" : "Show infoslide ↓"}
-                </button>
-              )}
+              <div className="flex items-start justify-between gap-5">
+                <div className="flex-1 min-w-0">
+                  <span className="text-xs font-medium text-gray-400">
+                    {m.tournament_name} · Round {m.round_seq}
+                    {m.stage !== "P" ? " · Break round" : ""}
+                  </span>
+                  <p className="text-gray-900 font-medium leading-snug mt-2 mb-2">{m.text}</p>
+                  {hasTopics && (
+                    <span
+                      className="inline-flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded-full mb-2"
+                      style={{
+                        backgroundColor: `${colorForTopic(m.topic)}1a`,
+                        color: colorForTopic(m.topic),
+                      }}
+                    >
+                      <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: colorForTopic(m.topic) }} />
+                      {m.topic || "Unclassified"}
+                    </span>
+                  )}
+                  {m.info_slide && (
+                    <button onClick={() => toggle(key)} className="block text-xs text-gray-400 hover:text-indigo-500">
+                      {isOpen ? "Hide infoslide ↑" : "Show infoslide ↓"}
+                    </button>
+                  )}
 
-              {isOpen && m.info_slide && (
-                <div
-                  className="text-sm text-gray-600 mt-3 bg-gray-50 rounded-xl p-4"
-                  dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(m.info_slide) }}
-                />
-              )}
+                  {isOpen && m.info_slide && (
+                    <div
+                      className="text-sm text-gray-600 mt-3 bg-gray-50 rounded-xl p-4"
+                      dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(m.info_slide) }}
+                    />
+                  )}
+                </div>
+                <div className="text-right shrink-0 flex flex-col items-end">
+                  <div className={`${playfair.className} text-3xl font-semibold text-gray-900 tabular-nums leading-none`}>
+                    {m.n_debates}
+                  </div>
+                  <div className="text-[11px] text-gray-400 uppercase tracking-wide mt-1 mb-2 whitespace-nowrap">
+                    debate{m.n_debates === 1 ? "" : "s"}
+                  </div>
+                  <span className="text-indigo-300">→</span>
+                </div>
+              </div>
             </div>
           );
         })}

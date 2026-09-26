@@ -4,7 +4,6 @@ import { playfair } from "@/lib/fonts";
 import Nav from "@/components/Nav";
 import SectionLabel from "@/components/SectionLabel";
 import StatGrid from "@/components/StatGrid";
-import BellCurve from "@/components/BellCurve";
 import { ButtonPrimary, ButtonSecondary } from "@/components/Button";
 
 function loadJson(filename) {
@@ -12,15 +11,8 @@ function loadJson(filename) {
   return JSON.parse(fs.readFileSync(filePath, "utf-8"));
 }
 
-function loadJsonOptional(filename) {
-  const filePath = path.join(process.cwd(), "public", "data", filename);
-  if (!fs.existsSync(filePath)) return null;
-  return JSON.parse(fs.readFileSync(filePath, "utf-8"));
-}
-
 export default function Home() {
   const tournaments = loadJson("tournaments.json");
-  const analytics = loadJsonOptional("analytics.json");
 
   const totals = tournaments.reduce(
     (acc, t) => ({
@@ -66,8 +58,6 @@ export default function Home() {
           <ButtonSecondary href="/motions">Explore motions</ButtonSecondary>
         </div>
 
-        <BellCurve positionStats={analytics?.position_stats} className="max-w-2xl -mt-2 mb-4" />
-
         <StatGrid stats={stats} />
 
         <div className="grid sm:grid-cols-3 gap-4 mt-6">
@@ -101,8 +91,11 @@ export default function Home() {
 
 function NavCard({ icon, title, description, href }) {
   return (
-    <a href={href} className="block bg-white border border-gray-100 rounded-2xl shadow-sm p-5 hover:shadow-md hover:border-indigo-200 transition">
-      <div className="w-9 h-9 rounded-lg bg-indigo-50 text-indigo-500 flex items-center justify-center mb-4">{icon}</div>
+    <a href={href} className="group block bg-white border border-gray-100 rounded-2xl shadow-sm p-5 hover:shadow-md hover:border-indigo-200 transition">
+      <div className="flex items-start justify-between mb-4">
+        <div className="w-9 h-9 rounded-lg bg-indigo-50 text-indigo-500 flex items-center justify-center">{icon}</div>
+        <span className="text-indigo-300 group-hover:text-indigo-500 group-hover:translate-x-0.5 transition transform">→</span>
+      </div>
       <div className="font-semibold text-gray-900 mb-1">{title}</div>
       <p className="text-sm text-gray-500">{description}</p>
     </a>
