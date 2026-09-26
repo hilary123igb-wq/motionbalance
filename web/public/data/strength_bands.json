@@ -1,0 +1,117 @@
+{
+  "definition": {
+    "measure": "Average points earned per team observation, by prior-performance strength band and BP position.",
+    "prior_strength_definition": "Each team's average points from its own earlier preliminary-round debates only. The strength feature is computed with a window frame ending one row before the current round, so the current and any future round can never leak into it.",
+    "min_prior_rounds": 2,
+    "bands": [
+      {
+        "band": "Lower prior performance",
+        "range": "Below 1.0"
+      },
+      {
+        "band": "Middle prior performance",
+        "range": "1.0 to below 2.0"
+      },
+      {
+        "band": "Higher prior performance",
+        "range": "2.0 to 3.0"
+      }
+    ],
+    "band_order": [
+      "Lower prior performance",
+      "Middle prior performance",
+      "Higher prior performance"
+    ],
+    "position_order": [
+      "OG",
+      "OO",
+      "CG",
+      "CO"
+    ],
+    "reference_line": 1.5,
+    "reference_line_label": "Average points across all four teams in a complete BP debate"
+  },
+  "data": [
+    {
+      "strength_band": "Lower prior performance",
+      "position": "CG",
+      "n": 3812,
+      "avg_points": 1.304
+    },
+    {
+      "strength_band": "Lower prior performance",
+      "position": "CO",
+      "n": 3786,
+      "avg_points": 1.309
+    },
+    {
+      "strength_band": "Lower prior performance",
+      "position": "OG",
+      "n": 3842,
+      "avg_points": 1.449
+    },
+    {
+      "strength_band": "Lower prior performance",
+      "position": "OO",
+      "n": 3852,
+      "avg_points": 1.553
+    },
+    {
+      "strength_band": "Middle prior performance",
+      "position": "CG",
+      "n": 13120,
+      "avg_points": 1.417
+    },
+    {
+      "strength_band": "Middle prior performance",
+      "position": "CO",
+      "n": 13168,
+      "avg_points": 1.43
+    },
+    {
+      "strength_band": "Middle prior performance",
+      "position": "OG",
+      "n": 13127,
+      "avg_points": 1.485
+    },
+    {
+      "strength_band": "Middle prior performance",
+      "position": "OO",
+      "n": 13091,
+      "avg_points": 1.656
+    },
+    {
+      "strength_band": "Higher prior performance",
+      "position": "CG",
+      "n": 7868,
+      "avg_points": 1.455
+    },
+    {
+      "strength_band": "Higher prior performance",
+      "position": "CO",
+      "n": 7846,
+      "avg_points": 1.507
+    },
+    {
+      "strength_band": "Higher prior performance",
+      "position": "OG",
+      "n": 7823,
+      "avg_points": 1.502
+    },
+    {
+      "strength_band": "Higher prior performance",
+      "position": "OO",
+      "n": 7868,
+      "avg_points": 1.702
+    }
+  ],
+  "takeaway": "The largest gap observed is within the \"Lower prior performance\" group: OO teams averaged 1.553 points per debate versus 1.304 for CG (n=3852 and n=3812 team observations respectively) \u2014 a difference of 0.249 points.",
+  "coverage": {
+    "n_tournaments_total": 757,
+    "n_debates_total": 41145,
+    "n_team_observations_total": 164580,
+    "n_team_observations_in_sample": 99203,
+    "n_debates_in_sample": 25229,
+    "n_tournaments_in_sample": 568
+  }
+}

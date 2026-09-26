@@ -205768,95 +205768,6 @@
     "least_successful_avg": 1.0
   },
   {
-    "motion_id": "ngome.calicotab.com:ngtoc2026:77784",
-    "text": "This House would treat repeated premeditation of a crime in lucid dreams as grounds for preventive detention.",
-    "reference": "Lucid Dreaming",
-    "info_slide": "Lucid dreaming refers to a state in which individuals are consciously aware that they are dreaming and can intentionally control the content and direction of their dreams. In this world, all individuals possess the ability to lucid dream and recall them in vivid detail. Additionally, technology allows for the accurate documentation and analysis of lucid dreams, similar to reviewing diaries or surveillance footage.",
-    "round_seq": 8,
-    "round_name": "Round 4B",
-    "stage": "P",
-    "tournament_id": "ngome.calicotab.com:ngtoc2026",
-    "tournament_name": "Ngome TOC 2026",
-    "n_debates": 2,
-    "position_stats": [
-      {
-        "position": "OG",
-        "avg_points": 3.0,
-        "n": 2
-      },
-      {
-        "position": "OO",
-        "avg_points": 1.5,
-        "n": 2
-      },
-      {
-        "position": "CG",
-        "avg_points": 1.0,
-        "n": 2
-      },
-      {
-        "position": "CO",
-        "avg_points": 0.5,
-        "n": 2
-      }
-    ],
-    "bench_stats": [
-      {
-        "bench": "Government",
-        "avg_points": 2.0
-      },
-      {
-        "bench": "Opposition",
-        "avg_points": 1.0
-      }
-    ],
-    "half_stats": [
-      {
-        "half": "Opening",
-        "avg_points": 2.25
-      },
-      {
-        "half": "Closing",
-        "avg_points": 0.75
-      }
-    ],
-    "finish_distribution": [
-      {
-        "position": "OG",
-        "pct_1st": 100.0,
-        "pct_2nd": 0.0,
-        "pct_3rd": 0.0,
-        "pct_4th": 0.0
-      },
-      {
-        "position": "OO",
-        "pct_1st": 0.0,
-        "pct_2nd": 50.0,
-        "pct_3rd": 50.0,
-        "pct_4th": 0.0
-      },
-      {
-        "position": "CG",
-        "pct_1st": 0.0,
-        "pct_2nd": 50.0,
-        "pct_3rd": 0.0,
-        "pct_4th": 50.0
-      },
-      {
-        "position": "CO",
-        "pct_1st": 0.0,
-        "pct_2nd": 0.0,
-        "pct_3rd": 50.0,
-        "pct_4th": 50.0
-      }
-    ],
-    "position_spread": 2.5,
-    "most_successful_position": "OG",
-    "most_successful_avg": 3.0,
-    "least_successful_position": "CO",
-    "least_successful_avg": 0.5
-  },
-  {
     "motion_id": "ngome.calicotab.com:ngtoc2026:77747",
     "text": "This house believes that NATO Should Admit the Ukraine",
     "reference": "Ukraine",
@@ -205943,6 +205854,95 @@
     "most_successful_position": "CO",
     "most_successful_avg": 3.0,
     "least_successful_position": "OG",
+    "least_successful_avg": 0.5
+  },
+  {
+    "motion_id": "ngome.calicotab.com:ngtoc2026:77784",
+    "text": "This House would treat repeated premeditation of a crime in lucid dreams as grounds for preventive detention.",
+    "reference": "Lucid Dreaming",
+    "info_slide": "Lucid dreaming refers to a state in which individuals are consciously aware that they are dreaming and can intentionally control the content and direction of their dreams. In this world, all individuals possess the ability to lucid dream and recall them in vivid detail. Additionally, technology allows for the accurate documentation and analysis of lucid dreams, similar to reviewing diaries or surveillance footage.",
+    "round_seq": 8,
+    "round_name": "Round 4B",
+    "stage": "P",
+    "tournament_id": "ngome.calicotab.com:ngtoc2026",
+    "tournament_name": "Ngome TOC 2026",
+    "n_debates": 2,
+    "position_stats": [
+      {
+        "position": "OG",
+        "avg_points": 3.0,
+        "n": 2
+      },
+      {
+        "position": "OO",
+        "avg_points": 1.5,
+        "n": 2
+      },
+      {
+        "position": "CG",
+        "avg_points": 1.0,
+        "n": 2
+      },
+      {
+        "position": "CO",
+        "avg_points": 0.5,
+        "n": 2
+      }
+    ],
+    "bench_stats": [
+      {
+        "bench": "Government",
+        "avg_points": 2.0
+      },
+      {
+        "bench": "Opposition",
+        "avg_points": 1.0
+      }
+    ],
+    "half_stats": [
+      {
+        "half": "Opening",
+        "avg_points": 2.25
+      },
+      {
+        "half": "Closing",
+        "avg_points": 0.75
+      }
+    ],
+    "finish_distribution": [
+      {
+        "position": "OG",
+        "pct_1st": 100.0,
+        "pct_2nd": 0.0,
+        "pct_3rd": 0.0,
+        "pct_4th": 0.0
+      },
+      {
+        "position": "OO",
+        "pct_1st": 0.0,
+        "pct_2nd": 50.0,
+        "pct_3rd": 50.0,
+        "pct_4th": 0.0
+      },
+      {
+        "position": "CG",
+        "pct_1st": 0.0,
+        "pct_2nd": 50.0,
+        "pct_3rd": 0.0,
+        "pct_4th": 50.0
+      },
+      {
+        "position": "CO",
+        "pct_1st": 0.0,
+        "pct_2nd": 0.0,
+        "pct_3rd": 50.0,
+        "pct_4th": 50.0
+      }
+    ],
+    "position_spread": 2.5,
+    "most_successful_position": "OG",
+    "most_successful_avg": 3.0,
+    "least_successful_position": "CO",
     "least_successful_avg": 0.5
   },
   {

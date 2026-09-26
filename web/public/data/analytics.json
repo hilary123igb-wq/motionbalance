@@ -68,7 +68,7 @@
         },
         {
           "term": "C(position, Treatment(reference='OG'))[T.CO]",
-          "coef": -0.0534,
+          "coef": -0.0535,
           "p_value": 0.0007
         },
         {
@@ -99,7 +99,7 @@
         },
         {
           "term": "C(position, Treatment(reference='OG'))[T.CO]",
-          "coef": -0.0514,
+          "coef": -0.0515,
           "p_value": 0.0006
         },
         {
