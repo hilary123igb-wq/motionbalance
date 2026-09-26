@@ -4,8 +4,15 @@ import { playfair } from "@/lib/fonts";
 import Nav from "@/components/Nav";
 import SectionLabel from "@/components/SectionLabel";
 import StatGrid from "@/components/StatGrid";
+import BellCurve from "@/components/BellCurve";
+import ComparisonRow from "@/components/ComparisonRow";
+import CommonKeywords from "@/components/CommonKeywords";
+import TopicDonut from "@/components/TopicDonut";
+import TopicTrendsChart from "@/components/TopicTrendsChart";
+import TopicPositionHeatmap from "@/components/TopicPositionHeatmap";
 import { BarChart } from "@/components/Charts";
 import StrengthBandChart from "@/components/StrengthBandChart";
+import { topKeywords } from "@/lib/keywords";
 
 function loadJson(filename) {
   const filePath = path.join(process.cwd(), "public", "data", filename);
@@ -58,9 +65,16 @@ function RegressionTable({ model }) {
   );
 }
 
-function ModelCard({ title, description, model }) {
+function ModelCard({ title, description, model, highlighted }) {
   return (
-    <div className="bg-white border border-gray-100 rounded-2xl shadow-sm p-6">
+    <div
+      className={`rounded-2xl shadow-sm p-6 ${
+        highlighted ? "bg-rose-50/40 border-2 border-rose-200" : "bg-white border border-gray-100"
+      }`}
+    >
+      {highlighted && (
+        <div className="text-xs font-medium tracking-widest text-rose-500 uppercase mb-2">Preferred comparison</div>
+      )}
       <h3 className="text-lg font-semibold text-gray-900 mb-1">{title}</h3>
       <p className="text-sm text-gray-500 mb-4">{description}</p>
       <div className="flex gap-6 text-sm mb-4">
@@ -85,9 +99,48 @@ function ModelCard({ title, description, model }) {
   );
 }
 
+function HighlightStat({ label, value, sublabel, color }) {
+  const valueColor = color === "rose" ? "text-rose-600" : "text-indigo-600";
+  return (
+    <div className="bg-white border border-gray-100 rounded-2xl shadow-sm p-6">
+      <div className="text-xs font-medium tracking-widest text-gray-400 uppercase mb-3">{label}</div>
+      <div className={`${playfair.className} text-3xl ${valueColor} mb-1.5`}>{value}</div>
+      <div className="text-sm text-gray-500">{sublabel}</div>
+    </div>
+  );
+}
+
+const METHOD_STEPS = [
+  {
+    n: "01",
+    title: "Measure strength",
+    body: "Give each team a strength marker from its own record in earlier preliminary rounds, rather than treating every team as identical.",
+  },
+  {
+    n: "02",
+    title: "Compare like with like",
+    body: "Compare teams at a similar strength level across OG, OO, CG and CO simultaneously, instead of pooling every team together.",
+  },
+  {
+    n: "03",
+    title: "Recheck the pattern",
+    body: "Ask whether the position ordering seen in the pooled stats above still holds once that strength difference is held steady.",
+  },
+];
+
 export default function AnalyticsPage() {
   const data = loadJson("analytics.json");
   const strengthBands = loadJsonOptional("strength_bands.json");
+  const motions = loadJsonOptional("motions.json");
+  const keywords = motions ? topKeywords(motions, { topN: 24 }) : [];
+  const topics = loadJsonOptional("topics.json");
+  const topicTrends = loadJsonOptional("topic_trends.json");
+  const positionTopicHeatmap = loadJsonOptional("position_topic_heatmap.json");
+
+  const govStat = data.bench_stats.find((b) => b.bench === "Government");
+  const oppStat = data.bench_stats.find((b) => b.bench === "Opposition");
+  const openStat = data.half_stats.find((h) => h.half === "Opening");
+  const closeStat = data.half_stats.find((h) => h.half === "Closing");
 
   const overviewStats = [
     { label: "Tournaments", value: data.n_tournaments },
@@ -102,14 +155,12 @@ export default function AnalyticsPage() {
     },
   ];
 
-  const pooledStats = [
-    { label: "Government advantage", value: `${data.government_advantage > 0 ? "+" : ""}${data.government_advantage}` },
-    { label: "Opening advantage", value: `${data.opening_advantage > 0 ? "+" : ""}${data.opening_advantage}` },
-  ];
-
   const positionData = data.position_stats.map((p) => ({ label: p.position, value: p.avg_points }));
   const benchData = data.bench_stats.map((b) => ({ label: b.bench, value: b.avg_points }));
   const halfData = data.half_stats.map((h) => ({ label: h.half, value: h.avg_points }));
+
+  const bestPosition = data.position_stats.reduce((a, b) => (b.avg_points > a.avg_points ? b : a));
+  const worstPosition = data.position_stats.reduce((a, b) => (b.avg_points < a.avg_points ? b : a));
 
   return (
     <>
@@ -125,6 +176,8 @@ export default function AnalyticsPage() {
           each position differ depending on how that team had already been performing before the round —
           separately from whatever the position itself is worth on average.
         </p>
+
+        <BellCurve positionStats={data.position_stats} className="max-w-2xl mb-6" />
 
         <StatGrid stats={overviewStats} />
 
@@ -142,7 +195,37 @@ export default function AnalyticsPage() {
             prior performance. Useful as a baseline, but it can&rsquo;t tell you whether a position&rsquo;s advantage changes
             for stronger or weaker teams — that&rsquo;s what the chart above is for.
           </p>
-          <StatGrid stats={pooledStats} gridClassName="grid-cols-2" />
+
+          <div className="grid grid-cols-2 gap-4 mb-6">
+            <HighlightStat
+              label="Highest average"
+              value={bestPosition.position}
+              sublabel={`${bestPosition.avg_points} average points`}
+              color="rose"
+            />
+            <HighlightStat
+              label="Lowest average"
+              value={worstPosition.position}
+              sublabel={`${worstPosition.avg_points} average points`}
+              color="indigo"
+            />
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+            <ComparisonRow
+              title="Government vs. Opposition"
+              leftStat={{ label: "Government", value: govStat.avg_points }}
+              rightStat={{ label: "Opposition", value: oppStat.avg_points }}
+              advantage={data.government_advantage}
+            />
+            <ComparisonRow
+              title="Opening vs. Closing"
+              leftStat={{ label: "Opening", value: openStat.avg_points }}
+              rightStat={{ label: "Closing", value: closeStat.avg_points }}
+              advantage={data.opening_advantage}
+            />
+          </div>
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
             <div className="bg-white border border-gray-100 rounded-2xl shadow-sm p-6">
               <h3 className="text-sm font-semibold text-gray-900 mb-4">By position</h3>
@@ -157,34 +240,64 @@ export default function AnalyticsPage() {
               <BarChart data={halfData} formatValue={(v) => `${v} pts`} />
             </div>
           </div>
+
+          {keywords.length > 0 && (
+            <div className="mt-6">
+              <CommonKeywords
+                keywords={keywords}
+                description={`Words appearing most often across the ${motions.length.toLocaleString()} motions behind this analysis.`}
+              />
+            </div>
+          )}
         </div>
 
-        <details className="mt-16 pt-12 border-t border-gray-100 group">
-          <summary className="cursor-pointer list-none">
-            <div className="flex items-center gap-2">
-              <SectionLabel>Further analysis (optional)</SectionLabel>
-            </div>
-            <h2 className={`${playfair.className} text-2xl sm:text-3xl mt-2 group-open:mb-2`}>
-              Does position still matter, controlling for team strength? <span className="text-indigo-400 text-lg align-middle">(expand)</span>
-            </h2>
-          </summary>
-          <p className="text-gray-500 max-w-2xl mb-6 mt-2">
-            Two regression models estimating position effects while controlling for team strength — kept here as
-            supporting detail behind the main chart above, not redesigned for this release.
+        <div className="mt-16 pt-12 border-t border-gray-100">
+          <SectionLabel>By topic</SectionLabel>
+          <h2 className={`${playfair.className} text-2xl sm:text-3xl mb-2 mt-2`}>
+            What are these motions actually about?
+          </h2>
+          <p className="text-gray-500 max-w-2xl mb-6">
+            Every motion is tagged with a topic by a local model (see the README for{" "}
+            <code className="bg-gray-50 px-1.5 py-0.5 rounded text-gray-600">scripts/classify_motions.py</code>) -
+            the topic set itself is discovered from this corpus rather than picked from a fixed list beforehand.
           </p>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <ModelCard
-              title="Leakage-safe model"
-              description="Controls for each team's rank going into the round (prior rounds only) — the honest estimate."
-              model={data.regression.leakage_safe}
-            />
-            <ModelCard
-              title="Leaky comparison model"
-              description="Controls for final tournament rank instead, which uses information not available at debate time — shown for comparison only."
-              model={data.regression.leaky_comparison}
-            />
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+            <TopicDonut topics={topics} />
+            <TopicPositionHeatmap rows={positionTopicHeatmap} />
           </div>
-        </details>
+
+          <TopicTrendsChart topicTrends={topicTrends} />
+        </div>
+
+        <div className="mt-16 pt-12 border-t border-gray-100">
+          <SectionLabel>Making a fairer comparison</SectionLabel>
+          <h2 className={`${playfair.className} text-2xl sm:text-3xl mb-2 mt-2`}>
+            What &ldquo;controlling for team strength&rdquo; means
+          </h2>
+          <p className="text-gray-500 max-w-2xl mb-8">
+            Strong teams may not be spread evenly across positions. The adjustment below separates the effect of{" "}
+            <strong className="text-gray-700 font-medium">which team debated</strong> from the effect of{" "}
+            <strong className="text-gray-700 font-medium">where they debated</strong>.
+          </p>
+
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-8">
+            {METHOD_STEPS.map((step) => (
+              <div key={step.n} className="bg-white border border-gray-100 rounded-2xl shadow-sm p-6">
+                <div className={`${playfair.className} text-2xl text-rose-400 mb-2`}>{step.n}</div>
+                <h3 className="font-semibold text-gray-900 mb-2">{step.title}</h3>
+                <p className="text-sm text-gray-500">{step.body}</p>
+              </div>
+            ))}
+          </div>
+
+          <ModelCard
+            title="Leakage-safe model (prior strength / pre-round rank)"
+            description="Controls for each team's rank going into the round, using prior rounds only — the clearest test of whether position itself is associated with the result. A second model that instead used each team's final tournament rank was checked against this one during development; it uses information not available at debate time and inflated the apparent R² roughly tenfold, which is why it isn't shown here as a result in its own right."
+            model={data.regression.leakage_safe}
+            highlighted
+          />
+        </div>
       </main>
     </>
   );

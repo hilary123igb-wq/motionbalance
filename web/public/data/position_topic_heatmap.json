@@ -1,0 +1,314 @@
+[
+  {
+    "topic": "Economics",
+    "position": "CG",
+    "n": 4647,
+    "avg_points": 1.383
+  },
+  {
+    "topic": "Economics",
+    "position": "CO",
+    "n": 4647,
+    "avg_points": 1.471
+  },
+  {
+    "topic": "Economics",
+    "position": "OG",
+    "n": 4647,
+    "avg_points": 1.464
+  },
+  {
+    "topic": "Economics",
+    "position": "OO",
+    "n": 4647,
+    "avg_points": 1.682
+  },
+  {
+    "topic": "Education",
+    "position": "CG",
+    "n": 2717,
+    "avg_points": 1.392
+  },
+  {
+    "topic": "Education",
+    "position": "CO",
+    "n": 2717,
+    "avg_points": 1.438
+  },
+  {
+    "topic": "Education",
+    "position": "OG",
+    "n": 2717,
+    "avg_points": 1.535
+  },
+  {
+    "topic": "Education",
+    "position": "OO",
+    "n": 2717,
+    "avg_points": 1.635
+  },
+  {
+    "topic": "Environment",
+    "position": "CG",
+    "n": 794,
+    "avg_points": 1.419
+  },
+  {
+    "topic": "Environment",
+    "position": "CO",
+    "n": 794,
+    "avg_points": 1.476
+  },
+  {
+    "topic": "Environment",
+    "position": "OG",
+    "n": 794,
+    "avg_points": 1.537
+  },
+  {
+    "topic": "Environment",
+    "position": "OO",
+    "n": 794,
+    "avg_points": 1.568
+  },
+  {
+    "topic": "Gender & Feminism",
+    "position": "CG",
+    "n": 2525,
+    "avg_points": 1.436
+  },
+  {
+    "topic": "Gender & Feminism",
+    "position": "CO",
+    "n": 2525,
+    "avg_points": 1.43
+  },
+  {
+    "topic": "Gender & Feminism",
+    "position": "OG",
+    "n": 2525,
+    "avg_points": 1.472
+  },
+  {
+    "topic": "Gender & Feminism",
+    "position": "OO",
+    "n": 2525,
+    "avg_points": 1.662
+  },
+  {
+    "topic": "Health",
+    "position": "CG",
+    "n": 1224,
+    "avg_points": 1.325
+  },
+  {
+    "topic": "Health",
+    "position": "CO",
+    "n": 1224,
+    "avg_points": 1.504
+  },
+  {
+    "topic": "Health",
+    "position": "OG",
+    "n": 1224,
+    "avg_points": 1.531
+  },
+  {
+    "topic": "Health",
+    "position": "OO",
+    "n": 1224,
+    "avg_points": 1.64
+  },
+  {
+    "topic": "International Relations",
+    "position": "CG",
+    "n": 1043,
+    "avg_points": 1.391
+  },
+  {
+    "topic": "International Relations",
+    "position": "CO",
+    "n": 1043,
+    "avg_points": 1.471
+  },
+  {
+    "topic": "International Relations",
+    "position": "OG",
+    "n": 1043,
+    "avg_points": 1.48
+  },
+  {
+    "topic": "International Relations",
+    "position": "OO",
+    "n": 1043,
+    "avg_points": 1.658
+  },
+  {
+    "topic": "Law & Criminal Justice",
+    "position": "CG",
+    "n": 1797,
+    "avg_points": 1.425
+  },
+  {
+    "topic": "Law & Criminal Justice",
+    "position": "CO",
+    "n": 1797,
+    "avg_points": 1.436
+  },
+  {
+    "topic": "Law & Criminal Justice",
+    "position": "OG",
+    "n": 1797,
+    "avg_points": 1.523
+  },
+  {
+    "topic": "Law & Criminal Justice",
+    "position": "OO",
+    "n": 1797,
+    "avg_points": 1.616
+  },
+  {
+    "topic": "Media & Culture",
+    "position": "CG",
+    "n": 1550,
+    "avg_points": 1.393
+  },
+  {
+    "topic": "Media & Culture",
+    "position": "CO",
+    "n": 1550,
+    "avg_points": 1.448
+  },
+  {
+    "topic": "Media & Culture",
+    "position": "OG",
+    "n": 1550,
+    "avg_points": 1.482
+  },
+  {
+    "topic": "Media & Culture",
+    "position": "OO",
+    "n": 1550,
+    "avg_points": 1.677
+  },
+  {
+    "topic": "Military & Security",
+    "position": "CG",
+    "n": 610,
+    "avg_points": 1.339
+  },
+  {
+    "topic": "Military & Security",
+    "position": "CO",
+    "n": 610,
+    "avg_points": 1.467
+  },
+  {
+    "topic": "Military & Security",
+    "position": "OG",
+    "n": 610,
+    "avg_points": 1.5
+  },
+  {
+    "topic": "Military & Security",
+    "position": "OO",
+    "n": 610,
+    "avg_points": 1.693
+  },
+  {
+    "topic": "Politics & Governance",
+    "position": "CG",
+    "n": 3564,
+    "avg_points": 1.417
+  },
+  {
+    "topic": "Politics & Governance",
+    "position": "CO",
+    "n": 3564,
+    "avg_points": 1.455
+  },
+  {
+    "topic": "Politics & Governance",
+    "position": "OG",
+    "n": 3564,
+    "avg_points": 1.503
+  },
+  {
+    "topic": "Politics & Governance",
+    "position": "OO",
+    "n": 3564,
+    "avg_points": 1.625
+  },
+  {
+    "topic": "Religion",
+    "position": "CG",
+    "n": 1476,
+    "avg_points": 1.444
+  },
+  {
+    "topic": "Religion",
+    "position": "CO",
+    "n": 1476,
+    "avg_points": 1.423
+  },
+  {
+    "topic": "Religion",
+    "position": "OG",
+    "n": 1476,
+    "avg_points": 1.527
+  },
+  {
+    "topic": "Religion",
+    "position": "OO",
+    "n": 1476,
+    "avg_points": 1.605
+  },
+  {
+    "topic": "Social Policy & Welfare",
+    "position": "CG",
+    "n": 204,
+    "avg_points": 1.294
+  },
+  {
+    "topic": "Social Policy & Welfare",
+    "position": "CO",
+    "n": 204,
+    "avg_points": 1.632
+  },
+  {
+    "topic": "Social Policy & Welfare",
+    "position": "OG",
+    "n": 204,
+    "avg_points": 1.593
+  },
+  {
+    "topic": "Social Policy & Welfare",
+    "position": "OO",
+    "n": 204,
+    "avg_points": 1.48
+  },
+  {
+    "topic": "Technology & Science",
+    "position": "CG",
+    "n": 1081,
+    "avg_points": 1.435
+  },
+  {
+    "topic": "Technology & Science",
+    "position": "CO",
+    "n": 1081,
+    "avg_points": 1.38
+  },
+  {
+    "topic": "Technology & Science",
+    "position": "OG",
+    "n": 1081,
+    "avg_points": 1.542
+  },
+  {
+    "topic": "Technology & Science",
+    "position": "OO",
+    "n": 1081,
+    "avg_points": 1.643
+  }
+]

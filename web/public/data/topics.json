@@ -1,0 +1,67 @@
+[
+  {
+    "topic": "Economics",
+    "n_motions": 307,
+    "n_debates": 4647
+  },
+  {
+    "topic": "Politics & Governance",
+    "n_motions": 261,
+    "n_debates": 3564
+  },
+  {
+    "topic": "Education",
+    "n_motions": 180,
+    "n_debates": 2717
+  },
+  {
+    "topic": "Gender & Feminism",
+    "n_motions": 177,
+    "n_debates": 2525
+  },
+  {
+    "topic": "Law & Criminal Justice",
+    "n_motions": 132,
+    "n_debates": 1797
+  },
+  {
+    "topic": "Media & Culture",
+    "n_motions": 118,
+    "n_debates": 1550
+  },
+  {
+    "topic": "Religion",
+    "n_motions": 106,
+    "n_debates": 1476
+  },
+  {
+    "topic": "Health",
+    "n_motions": 84,
+    "n_debates": 1224
+  },
+  {
+    "topic": "Technology & Science",
+    "n_motions": 85,
+    "n_debates": 1081
+  },
+  {
+    "topic": "International Relations",
+    "n_motions": 80,
+    "n_debates": 1043
+  },
+  {
+    "topic": "Environment",
+    "n_motions": 61,
+    "n_debates": 794
+  },
+  {
+    "topic": "Military & Security",
+    "n_motions": 40,
+    "n_debates": 610
+  },
+  {
+    "topic": "Social Policy & Welfare",
+    "n_motions": 14,
+    "n_debates": 204
+  }
+]

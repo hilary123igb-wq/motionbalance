@@ -1,0 +1,412 @@
+[
+  {
+    "year": 2020,
+    "topic": "Economics",
+    "n_debates": 38
+  },
+  {
+    "year": 2020,
+    "topic": "Education",
+    "n_debates": 17
+  },
+  {
+    "year": 2020,
+    "topic": "Law & Criminal Justice",
+    "n_debates": 28
+  },
+  {
+    "year": 2020,
+    "topic": "Politics & Governance",
+    "n_debates": 47
+  },
+  {
+    "year": 2020,
+    "topic": "Religion",
+    "n_debates": 37
+  },
+  {
+    "year": 2021,
+    "topic": "Economics",
+    "n_debates": 358
+  },
+  {
+    "year": 2021,
+    "topic": "Education",
+    "n_debates": 271
+  },
+  {
+    "year": 2021,
+    "topic": "Environment",
+    "n_debates": 118
+  },
+  {
+    "year": 2021,
+    "topic": "Gender & Feminism",
+    "n_debates": 111
+  },
+  {
+    "year": 2021,
+    "topic": "Health",
+    "n_debates": 112
+  },
+  {
+    "year": 2021,
+    "topic": "International Relations",
+    "n_debates": 104
+  },
+  {
+    "year": 2021,
+    "topic": "Law & Criminal Justice",
+    "n_debates": 126
+  },
+  {
+    "year": 2021,
+    "topic": "Media & Culture",
+    "n_debates": 146
+  },
+  {
+    "year": 2021,
+    "topic": "Military & Security",
+    "n_debates": 10
+  },
+  {
+    "year": 2021,
+    "topic": "Politics & Governance",
+    "n_debates": 114
+  },
+  {
+    "year": 2021,
+    "topic": "Religion",
+    "n_debates": 175
+  },
+  {
+    "year": 2021,
+    "topic": "Social Policy & Welfare",
+    "n_debates": 30
+  },
+  {
+    "year": 2021,
+    "topic": "Technology & Science",
+    "n_debates": 27
+  },
+  {
+    "year": 2022,
+    "topic": "Economics",
+    "n_debates": 327
+  },
+  {
+    "year": 2022,
+    "topic": "Education",
+    "n_debates": 406
+  },
+  {
+    "year": 2022,
+    "topic": "Environment",
+    "n_debates": 82
+  },
+  {
+    "year": 2022,
+    "topic": "Gender & Feminism",
+    "n_debates": 304
+  },
+  {
+    "year": 2022,
+    "topic": "Health",
+    "n_debates": 114
+  },
+  {
+    "year": 2022,
+    "topic": "International Relations",
+    "n_debates": 115
+  },
+  {
+    "year": 2022,
+    "topic": "Law & Criminal Justice",
+    "n_debates": 128
+  },
+  {
+    "year": 2022,
+    "topic": "Media & Culture",
+    "n_debates": 223
+  },
+  {
+    "year": 2022,
+    "topic": "Military & Security",
+    "n_debates": 72
+  },
+  {
+    "year": 2022,
+    "topic": "Politics & Governance",
+    "n_debates": 447
+  },
+  {
+    "year": 2022,
+    "topic": "Religion",
+    "n_debates": 156
+  },
+  {
+    "year": 2022,
+    "topic": "Social Policy & Welfare",
+    "n_debates": 12
+  },
+  {
+    "year": 2022,
+    "topic": "Technology & Science",
+    "n_debates": 92
+  },
+  {
+    "year": 2023,
+    "topic": "Economics",
+    "n_debates": 618
+  },
+  {
+    "year": 2023,
+    "topic": "Education",
+    "n_debates": 376
+  },
+  {
+    "year": 2023,
+    "topic": "Environment",
+    "n_debates": 97
+  },
+  {
+    "year": 2023,
+    "topic": "Gender & Feminism",
+    "n_debates": 417
+  },
+  {
+    "year": 2023,
+    "topic": "Health",
+    "n_debates": 132
+  },
+  {
+    "year": 2023,
+    "topic": "International Relations",
+    "n_debates": 208
+  },
+  {
+    "year": 2023,
+    "topic": "Law & Criminal Justice",
+    "n_debates": 381
+  },
+  {
+    "year": 2023,
+    "topic": "Media & Culture",
+    "n_debates": 140
+  },
+  {
+    "year": 2023,
+    "topic": "Military & Security",
+    "n_debates": 162
+  },
+  {
+    "year": 2023,
+    "topic": "Politics & Governance",
+    "n_debates": 503
+  },
+  {
+    "year": 2023,
+    "topic": "Religion",
+    "n_debates": 238
+  },
+  {
+    "year": 2023,
+    "topic": "Social Policy & Welfare",
+    "n_debates": 19
+  },
+  {
+    "year": 2023,
+    "topic": "Technology & Science",
+    "n_debates": 206
+  },
+  {
+    "year": 2024,
+    "topic": "Economics",
+    "n_debates": 1149
+  },
+  {
+    "year": 2024,
+    "topic": "Education",
+    "n_debates": 616
+  },
+  {
+    "year": 2024,
+    "topic": "Environment",
+    "n_debates": 246
+  },
+  {
+    "year": 2024,
+    "topic": "Gender & Feminism",
+    "n_debates": 609
+  },
+  {
+    "year": 2024,
+    "topic": "Health",
+    "n_debates": 338
+  },
+  {
+    "year": 2024,
+    "topic": "International Relations",
+    "n_debates": 173
+  },
+  {
+    "year": 2024,
+    "topic": "Law & Criminal Justice",
+    "n_debates": 337
+  },
+  {
+    "year": 2024,
+    "topic": "Media & Culture",
+    "n_debates": 356
+  },
+  {
+    "year": 2024,
+    "topic": "Military & Security",
+    "n_debates": 169
+  },
+  {
+    "year": 2024,
+    "topic": "Politics & Governance",
+    "n_debates": 773
+  },
+  {
+    "year": 2024,
+    "topic": "Religion",
+    "n_debates": 278
+  },
+  {
+    "year": 2024,
+    "topic": "Social Policy & Welfare",
+    "n_debates": 68
+  },
+  {
+    "year": 2024,
+    "topic": "Technology & Science",
+    "n_debates": 359
+  },
+  {
+    "year": 2025,
+    "topic": "Economics",
+    "n_debates": 1436
+  },
+  {
+    "year": 2025,
+    "topic": "Education",
+    "n_debates": 757
+  },
+  {
+    "year": 2025,
+    "topic": "Environment",
+    "n_debates": 109
+  },
+  {
+    "year": 2025,
+    "topic": "Gender & Feminism",
+    "n_debates": 768
+  },
+  {
+    "year": 2025,
+    "topic": "Health",
+    "n_debates": 365
+  },
+  {
+    "year": 2025,
+    "topic": "International Relations",
+    "n_debates": 186
+  },
+  {
+    "year": 2025,
+    "topic": "Law & Criminal Justice",
+    "n_debates": 618
+  },
+  {
+    "year": 2025,
+    "topic": "Media & Culture",
+    "n_debates": 477
+  },
+  {
+    "year": 2025,
+    "topic": "Military & Security",
+    "n_debates": 163
+  },
+  {
+    "year": 2025,
+    "topic": "Politics & Governance",
+    "n_debates": 1021
+  },
+  {
+    "year": 2025,
+    "topic": "Religion",
+    "n_debates": 431
+  },
+  {
+    "year": 2025,
+    "topic": "Social Policy & Welfare",
+    "n_debates": 75
+  },
+  {
+    "year": 2025,
+    "topic": "Technology & Science",
+    "n_debates": 215
+  },
+  {
+    "year": 2026,
+    "topic": "Economics",
+    "n_debates": 721
+  },
+  {
+    "year": 2026,
+    "topic": "Education",
+    "n_debates": 274
+  },
+  {
+    "year": 2026,
+    "topic": "Environment",
+    "n_debates": 142
+  },
+  {
+    "year": 2026,
+    "topic": "Gender & Feminism",
+    "n_debates": 316
+  },
+  {
+    "year": 2026,
+    "topic": "Health",
+    "n_debates": 163
+  },
+  {
+    "year": 2026,
+    "topic": "International Relations",
+    "n_debates": 257
+  },
+  {
+    "year": 2026,
+    "topic": "Law & Criminal Justice",
+    "n_debates": 179
+  },
+  {
+    "year": 2026,
+    "topic": "Media & Culture",
+    "n_debates": 208
+  },
+  {
+    "year": 2026,
+    "topic": "Military & Security",
+    "n_debates": 34
+  },
+  {
+    "year": 2026,
+    "topic": "Politics & Governance",
+    "n_debates": 659
+  },
+  {
+    "year": 2026,
+    "topic": "Religion",
+    "n_debates": 161
+  },
+  {
+    "year": 2026,
+    "topic": "Technology & Science",
+    "n_debates": 182
+  }
+]

@@ -104,6 +104,46 @@ These commands run from the repository root, with the Python virtualenv active.
    python scripts/regression.py
    ```
 
+5. Optional — tag every motion with a topic (no LLM, no network, no local
+   server required):
+
+   ```
+   python scripts/classify_motions.py
+   python scripts/export_data.py       # re-run to publish the topic exports
+   ```
+
+   This uses weak supervision rather than a hand-labeled training set (which
+   this project doesn't have) or an LLM (an earlier version of this script
+   used a local Ollama model, but Ollama requires macOS 14+, which ruled it
+   out on the machine this was actually developed on - see the git history if
+   you want that version back for a newer Mac). A curated keyword dictionary
+   first gives each motion a "seed" topic wherever its text unambiguously
+   matches one topic's keywords - fully transparent, every seed label is
+   explainable by the keywords that produced it. A TF-IDF + logistic
+   regression classifier (`scikit-learn`, inspired by the architecture in
+   [vikwritescode/derivative](https://github.com/vikwritescode/derivative))
+   is then trained only on those seed-labeled motions and used to label the
+   rest - a motion only gets a model-predicted topic if the model clears a
+   confidence threshold; below that it's left "Unclassified" rather than
+   forcing a guess. On the full catalog this currently classifies about 58%
+   of motions (1,636 of 2,809) across 13 topics; the rest show as
+   "Unclassified" in the UI rather than being silently omitted or guessed at.
+
+   Reads `web/public/data/motions.json` (not the database), so it has no
+   dependency on `motionbalance.duckdb` and can run anywhere this repo is
+   checked out. Results are cached in `data/motion_topics.csv` - deliberately
+   *not* in `motionbalance.duckdb`, since `load_all.py` rebuilds that database
+   from scratch on every run, which would silently wipe out a classification
+   pass if it lived in a table there. `data/motion_topics.csv` is committed,
+   so the topic exports (`topics.json`, `topic_trends.json`,
+   `position_topic_heatmap.json`, and the `topic` field on each motion in
+   `motions.json`) are already generated and live on the site without you
+   needing to run this step yourself - it's documented here for how to
+   re-run it (e.g. after fetching more tournaments) or tune the keyword
+   dictionary in `scripts/classify_motions.py`. The trained model artifacts
+   (`models/*.joblib`) are gitignored - safe to delete any time, and
+   regenerated on every run.
+
 ## Running the website
 
 ```
@@ -146,6 +186,13 @@ the two lines above are the whole of what's left to do.
   implying they're the same population.
 - The chart and regression models describe association, not causation — the site
   says this explicitly next to both.
+- Topic classification (`scripts/classify_motions.py`) has been run against
+  the full catalog and its output is committed, but coverage is partial by
+  design: about 58% of motions (1,636 of 2,809) have a topic, the rest show as
+  "Unclassified" rather than being force-labeled by a low-confidence guess.
+  The keyword dictionary it seeds from is a first pass, not a definitive
+  taxonomy — worth revisiting if particular topics look thin or motions look
+  miscategorized.
 - Beyond this release, known open items from an earlier code review are still
   deferred: a fuller write-up of what the leakage-safe regression does and
   doesn't control for, tighter scoping of the research question the modeling

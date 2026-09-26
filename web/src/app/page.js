@@ -4,6 +4,7 @@ import { playfair } from "@/lib/fonts";
 import Nav from "@/components/Nav";
 import SectionLabel from "@/components/SectionLabel";
 import StatGrid from "@/components/StatGrid";
+import BellCurve from "@/components/BellCurve";
 import { ButtonPrimary, ButtonSecondary } from "@/components/Button";
 
 function loadJson(filename) {
@@ -11,8 +12,15 @@ function loadJson(filename) {
   return JSON.parse(fs.readFileSync(filePath, "utf-8"));
 }
 
+function loadJsonOptional(filename) {
+  const filePath = path.join(process.cwd(), "public", "data", filename);
+  if (!fs.existsSync(filePath)) return null;
+  return JSON.parse(fs.readFileSync(filePath, "utf-8"));
+}
+
 export default function Home() {
   const tournaments = loadJson("tournaments.json");
+  const analytics = loadJsonOptional("analytics.json");
 
   const totals = tournaments.reduce(
     (acc, t) => ({
@@ -53,10 +61,12 @@ export default function Home() {
           </span>
         </p>
 
-        <div className="flex gap-3 mb-12">
+        <div className="flex gap-3 mb-10">
           <ButtonPrimary href="/analytics">See the main analysis →</ButtonPrimary>
           <ButtonSecondary href="/motions">Explore motions</ButtonSecondary>
         </div>
+
+        <BellCurve positionStats={analytics?.position_stats} className="max-w-2xl -mt-2 mb-4" />
 
         <StatGrid stats={stats} />
 

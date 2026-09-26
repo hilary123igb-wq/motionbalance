@@ -1,5 +1,8 @@
+import collections
+import csv
 import json
 import pathlib
+from collections import Counter
 import duckdb
 import pandas as pd
 import statsmodels.formula.api as smf
@@ -57,6 +60,23 @@ for rec in tournaments_df.to_dict(orient="records"):
     extra = meta_by_host_slug.get((rec["host"], rec["slug"]), {})
     tournaments.append({**rec, **extra})
 write_json("tournaments", tournaments)
+
+# --- optional: motion topics (data/motion_topics.csv, produced by
+# scripts/classify_motions.py against a local Ollama model - see its
+# docstring for why this lives in a CSV rather than the database). Treated
+# as "not generated yet" rather than an error if it's missing, same as
+# strength_bands.json below - the site renders an explicit empty state.
+TOPICS_PATH = pathlib.Path("data/motion_topics.csv")
+topic_by_motion_id = {}
+if TOPICS_PATH.exists():
+    with open(TOPICS_PATH, newline="", encoding="utf-8") as f:
+        for row in csv.DictReader(f):
+            topic = (row.get("topic") or "").strip()
+            if topic:
+                topic_by_motion_id[row["motion_id"]] = topic
+    print(f"loaded {len(topic_by_motion_id)} motion topics from {TOPICS_PATH}")
+else:
+    print(f"{TOPICS_PATH} not found - topic exports skipped (run scripts/classify_motions.py to generate it)")
 
 # --- motions.json: every motion used in a debate, with per-motion breakdown stats ---
 motions_df = con.execute("""
@@ -167,6 +187,7 @@ for rec in motions_df.to_dict(orient="records"):
         "most_successful_avg": best["avg_points"] if best else None,
         "least_successful_position": worst["position"] if worst else None,
         "least_successful_avg": worst["avg_points"] if worst else None,
+        "topic": topic_by_motion_id.get(motion_id),
     })
 
 write_json("motions", motions)
@@ -321,5 +342,85 @@ write_json("strength_bands", {
         "n_tournaments_in_sample": int(sample_scope[1]) if sample_scope[1] is not None else 0,
     },
 })
+
+# --- topic-derived exports: topics.json, topic_trends.json,
+# position_topic_heatmap.json. Only produced once classify_motions.py has
+# been run at least once (topic_by_motion_id non-empty).
+#
+# Computed entirely from the `motions` and `tournaments` lists already built
+# above in this same script - no database query needed. Each motion already
+# carries its own position_stats (avg_points + n per position) and
+# n_debates, so a topic's position averages are a weighted mean of those
+# per-motion means (weighted by each motion's n) rather than a fresh
+# groupby over raw debate_teams rows. That's mathematically identical to
+# grouping the raw rows directly (a weighted mean of group means, weighted
+# by group size, equals the mean of the pooled group) and means this whole
+# block - and therefore classify_motions.py's output - can be sanity-checked
+# without motionbalance.duckdb at all, since motions.json and tournaments.json
+# are both committed, unlike the database.
+if topic_by_motion_id:
+    year_by_tournament_id = {t["tournament_id"]: t.get("year") for t in tournaments}
+
+    topic_motion_counts = Counter()
+    topic_debate_counts = Counter()
+    topic_year_debate_counts = Counter()
+    # position -> topic -> [sum(avg_points * n), sum(n)]
+    position_topic_totals = collections.defaultdict(lambda: collections.defaultdict(lambda: [0.0, 0]))
+
+    for m in motions:
+        topic = m.get("topic")
+        if not topic:
+            continue
+        motion_id = m["motion_id"]
+        n_debates = m.get("n_debates", 0)
+
+        topic_motion_counts[topic] += 1
+        topic_debate_counts[topic] += n_debates
+
+        year = year_by_tournament_id.get(m.get("tournament_id"))
+        if year is not None:
+            topic_year_debate_counts[(year, topic)] += n_debates
+
+        for p in m.get("position_stats", []):
+            totals = position_topic_totals[p["position"]][topic]
+            totals[0] += p["avg_points"] * p["n"]
+            totals[1] += p["n"]
+
+    # topics.json: how many motions/debates fall under each topic
+    topic_dist = [
+        {"topic": topic, "n_motions": topic_motion_counts[topic], "n_debates": topic_debate_counts[topic]}
+        for topic in topic_motion_counts
+    ]
+    topic_dist.sort(key=lambda r: r["n_debates"], reverse=True)
+    write_json("topics", topic_dist)
+
+    # topic_trends.json: topic mix by tournament year
+    trend_rows = [
+        {"year": year, "topic": topic, "n_debates": n}
+        for (year, topic), n in topic_year_debate_counts.items()
+    ]
+    trend_rows.sort(key=lambda r: (r["year"], r["topic"]))
+    write_json("topic_trends", trend_rows)
+
+    # position_topic_heatmap.json: avg points by position, within each topic
+    # (motions.json rows are deduplicated per motion_id above the loop that
+    # builds `motions`, so each motion's position_stats is counted once here)
+    heatmap_rows = []
+    for position in ["OG", "OO", "CG", "CO"]:
+        for topic, (weighted_sum, n) in position_topic_totals[position].items():
+            if n == 0:
+                continue
+            heatmap_rows.append({
+                "topic": topic,
+                "position": position,
+                "n": n,
+                "avg_points": round(weighted_sum / n, 3),
+            })
+    heatmap_rows.sort(key=lambda r: (r["topic"], r["position"]))
+    write_json("position_topic_heatmap", heatmap_rows)
+
+    print(f"exported topic data for {len(topic_by_motion_id)} classified motions across {len(topic_motion_counts)} topics")
+else:
+    print("skipping topics.json / topic_trends.json / position_topic_heatmap.json (no topic data yet)")
 
 con.close()
