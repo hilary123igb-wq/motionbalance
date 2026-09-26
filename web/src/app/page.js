@@ -41,14 +41,21 @@ export default function Home() {
           <br />
           <span className="text-indigo-500">Balance</span>
         </h1>
-        <p className="text-gray-600 text-lg max-w-lg mb-8">
+        <p className="text-gray-600 text-lg max-w-lg mb-4">
           Explore debate motions, tournaments and patterns in positional
           strength across British Parliamentary debating.
         </p>
+        <p className="text-gray-600 text-lg max-w-lg mb-8">
+          The central question:{" "}
+          <span className="text-gray-900 font-medium">
+            how do average points earned from Opening Government, Opening Opposition, Closing Government and
+            Closing Opposition vary between teams with different levels of prior performance?
+          </span>
+        </p>
 
         <div className="flex gap-3 mb-12">
-          <ButtonPrimary href="/motions">Explore motions →</ButtonPrimary>
-          <ButtonSecondary href="/analytics">View analytics</ButtonSecondary>
+          <ButtonPrimary href="/analytics">See the main analysis →</ButtonPrimary>
+          <ButtonSecondary href="/motions">Explore motions</ButtonSecondary>
         </div>
 
         <StatGrid stats={stats} />
@@ -69,7 +76,7 @@ export default function Home() {
           <NavCard
             icon={<ChartIcon />}
             title="Analytics"
-            description="Discover positional advantages and leakage-safe modeling"
+            description="How positional outcomes vary with team strength, plus pooled stats and modeling"
             href="/analytics"
           />
         </div>

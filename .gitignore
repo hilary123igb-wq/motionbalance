@@ -4,6 +4,7 @@ __pycache__/
 *.pyc
 *.duckdb
 *.duckdb.wal
+*.duckdb.tmp
 .DS_Store
 .env
 web/node_modules/

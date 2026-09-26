@@ -228,4 +228,98 @@ write_json("analytics", {
     },
 })
 
+# --- strength_bands.json: the central analysis for this release - average
+# points earned by BP position, split by each team's prior-performance band
+# (see sql/analytics.sql:strength_band_stats for the exact window/filter). ---
+BAND_ORDER = ["Lower prior performance", "Middle prior performance", "Higher prior performance"]
+POSITION_ORDER = ["OG", "OO", "CG", "CO"]
+
+# Name deliberately does NOT match the SQL view "strength_band_stats" -
+# DuckDB's Python replacement scan will happily query a same-named Python
+# list/DataFrame instead of the real view if the names collide (we hit this
+# exact bug earlier in the project with position_stats/bench_stats/half_stats).
+strength_band_df = con.execute("""
+    SELECT strength_band, position, n, avg_points
+    FROM strength_band_stats
+    ORDER BY
+        CASE strength_band
+            WHEN 'Lower prior performance' THEN 1
+            WHEN 'Middle prior performance' THEN 2
+            ELSE 3
+        END,
+        position
+""").fetchdf()
+strength_band_rows = strength_band_df.to_dict(orient="records")
+
+# Coverage: the full dataset vs. the smaller sample this analysis can use.
+# A team only qualifies once it has at least two earlier prelim results, so
+# early rounds and short tournaments contribute fewer observations here than
+# to the headline dataset totals above - report both, never just one.
+n_team_obs_total = con.execute("SELECT COUNT(*) FROM prelim_debate_teams").fetchone()[0]
+n_team_obs_in_sample = int(strength_band_df["n"].sum()) if not strength_band_df.empty else 0
+sample_scope = con.execute("""
+    SELECT COUNT(DISTINCT debate_id) AS n_debates, COUNT(DISTINCT tournament_id) AS n_tournaments
+    FROM team_strength
+    WHERE prior_team_strength IS NOT NULL AND prior_rounds_played >= 2
+""").fetchone()
+
+
+def strength_band_takeaway(rows):
+    """Plain-English summary of the largest observed gap in the actual
+    exported data. Always derived from `rows`, never hand-written, so the
+    text can't drift from what the chart/table show. Returns None if there
+    isn't enough data (fewer than 2 positions in every band) to say anything."""
+    by_band = {}
+    for r in rows:
+        by_band.setdefault(r["strength_band"], {})[r["position"]] = r
+
+    widest = None
+    for band in BAND_ORDER:
+        positions = by_band.get(band, {})
+        if len(positions) < 2:
+            continue
+        best = max(positions.values(), key=lambda r: r["avg_points"])
+        worst = min(positions.values(), key=lambda r: r["avg_points"])
+        gap = round(best["avg_points"] - worst["avg_points"], 3)
+        if widest is None or gap > widest[0]:
+            widest = (gap, band, best, worst)
+
+    if widest is None:
+        return None
+    gap, band, best, worst = widest
+    return (
+        f"The largest gap observed is within the \"{band}\" group: {best['position']} teams "
+        f"averaged {best['avg_points']} points per debate versus {worst['avg_points']} for "
+        f"{worst['position']} (n={best['n']} and n={worst['n']} team observations respectively) "
+        f"— a difference of {gap} points."
+    )
+
+
+write_json("strength_bands", {
+    "definition": {
+        "measure": "Average points earned per team observation, by prior-performance strength band and BP position.",
+        "prior_strength_definition": "Each team's average points from its own earlier preliminary-round debates only. The strength feature is computed with a window frame ending one row before the current round, so the current and any future round can never leak into it.",
+        "min_prior_rounds": 2,
+        "bands": [
+            {"band": "Lower prior performance", "range": "Below 1.0"},
+            {"band": "Middle prior performance", "range": "1.0 to below 2.0"},
+            {"band": "Higher prior performance", "range": "2.0 to 3.0"},
+        ],
+        "band_order": BAND_ORDER,
+        "position_order": POSITION_ORDER,
+        "reference_line": 1.5,
+        "reference_line_label": "Average points across all four teams in a complete BP debate",
+    },
+    "data": strength_band_rows,
+    "takeaway": strength_band_takeaway(strength_band_rows),
+    "coverage": {
+        "n_tournaments_total": n_tournaments,
+        "n_debates_total": int(n_debates_total),
+        "n_team_observations_total": int(n_team_obs_total),
+        "n_team_observations_in_sample": n_team_obs_in_sample,
+        "n_debates_in_sample": int(sample_scope[0]) if sample_scope[0] is not None else 0,
+        "n_tournaments_in_sample": int(sample_scope[1]) if sample_scope[1] is not None else 0,
+    },
+})
+
 con.close()

@@ -88,3 +88,28 @@ FROM team_strength_ranked ts
 JOIN final_team_standings fs
     ON ts.tournament_id = fs.tournament_id
     AND ts.team_id = fs.team_id;
+
+-- Main analysis: how average points earned from each BP position vary with
+-- a team's prior performance. Each row is one team's result in one prelim
+-- debate; `prior_team_strength` (from team_strength, above) is that team's
+-- average points from its own STRICTLY EARLIER prelim rounds only - the
+-- window frame is "UNBOUNDED PRECEDING AND 1 PRECEDING", so the current and
+-- any future round can never leak into it. We additionally require at least
+-- two such earlier rounds (`prior_rounds_played >= 2`) so a band reflects an
+-- actual track record rather than a single earlier result. Bands describe
+-- performance going into that round, not a fixed trait - the same team can
+-- sit in a different band in round 5 than it did in round 2.
+CREATE OR REPLACE VIEW strength_band_stats AS
+SELECT
+    CASE
+        WHEN prior_team_strength < 1.0 THEN 'Lower prior performance'
+        WHEN prior_team_strength < 2.0 THEN 'Middle prior performance'
+        ELSE 'Higher prior performance'
+    END AS strength_band,
+    position,
+    COUNT(*) AS n,
+    ROUND(AVG(team_points), 3) AS avg_points
+FROM team_strength
+WHERE prior_team_strength IS NOT NULL
+  AND prior_rounds_played >= 2
+GROUP BY 1, 2;
