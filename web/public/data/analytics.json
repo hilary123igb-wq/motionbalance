@@ -1,97 +1,79 @@
 {
   "n_tournaments": 757,
-  "n_debates_in_model": 130541,
+  "n_debates_total": 41145,
+  "n_debates_in_model": 33172,
+  "n_model_observations": 131422,
   "position_stats": [
     {
-      "position": "AFF",
-      "n": 723,
-      "avg_points": 0.498
-    },
-    {
       "position": "CG",
-      "n": 40577,
-      "avg_points": 1.409
+      "n": 41145,
+      "avg_points": 1.411
     },
     {
       "position": "CO",
-      "n": 40577,
-      "avg_points": 1.448
-    },
-    {
-      "position": "NEG",
-      "n": 723,
-      "avg_points": 0.502
+      "n": 41145,
+      "avg_points": 1.45
     },
     {
       "position": "OG",
-      "n": 40577,
-      "avg_points": 1.497
+      "n": 41145,
+      "avg_points": 1.496
     },
     {
       "position": "OO",
-      "n": 40577,
-      "avg_points": 1.646
+      "n": 41145,
+      "avg_points": 1.644
     }
   ],
   "bench_stats": [
     {
       "bench": "Government",
-      "n": 81154,
+      "n": 82290,
       "avg_points": 1.453
     },
     {
       "bench": "Opposition",
-      "n": 82600,
-      "avg_points": 1.529
+      "n": 82290,
+      "avg_points": 1.547
     }
   ],
   "half_stats": [
     {
       "half": "Closing",
-      "n": 82600,
-      "avg_points": 1.412
+      "n": 82290,
+      "avg_points": 1.43
     },
     {
       "half": "Opening",
-      "n": 81154,
-      "avg_points": 1.572
+      "n": 82290,
+      "avg_points": 1.57
     }
   ],
-  "government_advantage": -0.076,
-  "opening_advantage": -0.16,
+  "government_advantage": -0.094,
+  "opening_advantage": 0.14,
   "regression": {
     "leakage_safe": {
-      "r_squared": 0.014,
-      "n_obs": 130541,
+      "r_squared": 0.0074,
+      "n_obs": 131422,
       "coefficients": [
         {
           "term": "Intercept",
-          "coef": 1.4951,
-          "p_value": 0.0
-        },
-        {
-          "term": "C(position, Treatment(reference='OG'))[T.AFF]",
-          "coef": -1.0427,
+          "coef": 1.4931,
           "p_value": 0.0
         },
         {
           "term": "C(position, Treatment(reference='OG'))[T.CG]",
-          "coef": -0.0909,
+          "coef": -0.0866,
           "p_value": 0.0
         },
         {
           "term": "C(position, Treatment(reference='OG'))[T.CO]",
-          "coef": -0.057,
-          "p_value": 0.0002
-        },
-        {
-          "term": "C(position, Treatment(reference='OG'))[T.NEG]",
-          "coef": -0.9761,
-          "p_value": 0.0
+          "coef": -0.0534,
+          "p_value": 0.0007
         },
         {
           "term": "C(position, Treatment(reference='OG'))[T.OO]",
-          "coef": 0.1581,
+          "coef": 0.1579,
           "p_value": 0.0
         },
         {
@@ -102,42 +84,32 @@
       ]
     },
     "leaky_comparison": {
-      "r_squared": 0.0914,
-      "n_obs": 130541,
+      "r_squared": 0.0844,
+      "n_obs": 131422,
       "coefficients": [
         {
           "term": "Intercept",
-          "coef": 1.4968,
-          "p_value": 0.0
-        },
-        {
-          "term": "C(position, Treatment(reference='OG'))[T.AFF]",
-          "coef": -1.2273,
+          "coef": 1.4934,
           "p_value": 0.0
         },
         {
           "term": "C(position, Treatment(reference='OG'))[T.CG]",
-          "coef": -0.0869,
+          "coef": -0.083,
           "p_value": 0.0
         },
         {
           "term": "C(position, Treatment(reference='OG'))[T.CO]",
-          "coef": -0.0548,
-          "p_value": 0.0002
-        },
-        {
-          "term": "C(position, Treatment(reference='OG'))[T.NEG]",
-          "coef": -1.1702,
-          "p_value": 0.0
+          "coef": -0.0514,
+          "p_value": 0.0006
         },
         {
           "term": "C(position, Treatment(reference='OG'))[T.OO]",
-          "coef": 0.1512,
+          "coef": 0.1513,
           "p_value": 0.0
         },
         {
           "term": "final_rank_centered",
-          "coef": -0.0096,
+          "coef": -0.0095,
           "p_value": 0.0
         }
       ]

@@ -5,6 +5,7 @@ import pandas as pd
 import statsmodels.formula.api as smf
 
 con = duckdb.connect("motionbalance.duckdb")
+con.execute(open("sql/analytics.sql").read())
 OUT_DIR = pathlib.Path("web/public/data")
 OUT_DIR.mkdir(parents=True, exist_ok=True)
 
@@ -117,7 +118,7 @@ motions = []
 for rec in motions_df.to_dict(orient="records"):
     motion_id = rec["motion_id"]
     pos_map = position_by_motion.get(motion_id, {})
-    position_stats = [pos_map[p] for p in ["OG", "OO", "CG", "CO"] if p in pos_map]
+    motion_position_stats = [pos_map[p] for p in ["OG", "OO", "CG", "CO"] if p in pos_map]
     n_debates = debates_by_motion.get(motion_id, 0)
 
     bench_totals, half_totals = {}, {}
@@ -128,8 +129,8 @@ for rec in motions_df.to_dict(orient="records"):
         bench_totals.setdefault(bench_of(p), []).append(avg)
         half_totals.setdefault(half_of(p), []).append(avg)
 
-    bench_stats = [{"bench": b, "avg_points": round(sum(v) / len(v), 3)} for b, v in bench_totals.items()]
-    half_stats = [{"half": h, "avg_points": round(sum(v) / len(v), 3)} for h, v in half_totals.items()]
+    motion_bench_stats = [{"bench": b, "avg_points": round(sum(v) / len(v), 3)} for b, v in bench_totals.items()]
+    motion_half_stats = [{"half": h, "avg_points": round(sum(v) / len(v), 3)} for h, v in half_totals.items()]
 
     finish_distribution = []
     pos_ranks = rank_by_motion.get(motion_id, {})
@@ -146,9 +147,9 @@ for rec in motions_df.to_dict(orient="records"):
             "pct_4th": round(100 * counts.get(4, 0) / denom, 1),
         })
 
-    if position_stats:
-        best = max(position_stats, key=lambda p: p["avg_points"])
-        worst = min(position_stats, key=lambda p: p["avg_points"])
+    if motion_position_stats:
+        best = max(motion_position_stats, key=lambda p: p["avg_points"])
+        worst = min(motion_position_stats, key=lambda p: p["avg_points"])
         position_spread = round(best["avg_points"] - worst["avg_points"], 3)
     else:
         best = worst = None
@@ -157,9 +158,9 @@ for rec in motions_df.to_dict(orient="records"):
     motions.append({
         **rec,
         "n_debates": n_debates,
-        "position_stats": position_stats,
-        "bench_stats": bench_stats,
-        "half_stats": half_stats,
+        "position_stats": motion_position_stats,
+        "bench_stats": motion_bench_stats,
+        "half_stats": motion_half_stats,
         "finish_distribution": finish_distribution,
         "position_spread": position_spread,
         "most_successful_position": best["position"] if best else None,
@@ -174,13 +175,18 @@ write_json("motions", motions)
 position_stats = con.execute("SELECT * FROM position_stats ORDER BY position").fetchdf()
 bench_stats = con.execute("SELECT * FROM bench_stats ORDER BY bench").fetchdf()
 half_stats = con.execute("SELECT * FROM half_stats ORDER BY half").fetchdf()
-gov, opp = bench_stats["avg_points"]
-opening, closing = half_stats["avg_points"]
+
+# Look up by label, never by row position after a sort.
+bench_avg = dict(zip(bench_stats["bench"], bench_stats["avg_points"]))
+half_avg = dict(zip(half_stats["half"], half_stats["avg_points"]))
+gov, opp = bench_avg["Government"], bench_avg["Opposition"]
+opening, closing = half_avg["Opening"], half_avg["Closing"]
 
 n_tournaments = con.execute("SELECT COUNT(*) FROM tournaments").fetchone()[0]
+n_debates_total = con.execute("SELECT COUNT(*) FROM debates").fetchone()[0]
 
 df = con.execute("""
-    SELECT tournament_id, team_points, position, prior_team_rank, final_rank
+    SELECT debate_id, tournament_id, team_points, position, prior_team_rank, final_rank
     FROM team_strength_with_final_rank
     WHERE prior_team_strength IS NOT NULL
 """).df()
@@ -208,7 +214,9 @@ def model_to_dict(model):
 
 write_json("analytics", {
     "n_tournaments": n_tournaments,
-    "n_debates_in_model": int(model_a.nobs),
+    "n_debates_total": int(n_debates_total),
+    "n_debates_in_model": int(df["debate_id"].nunique()),
+    "n_model_observations": int(model_a.nobs),
     "position_stats": position_stats.to_dict(orient="records"),
     "bench_stats": bench_stats.to_dict(orient="records"),
     "half_stats": half_stats.to_dict(orient="records"),

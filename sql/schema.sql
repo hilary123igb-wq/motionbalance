@@ -60,9 +60,9 @@ CREATE TABLE debates (
 CREATE TABLE debate_teams (
     debate_id       VARCHAR REFERENCES debates(debate_id),
     team_id         VARCHAR REFERENCES teams(team_id),
-    position        VARCHAR,
-    team_points     INTEGER,
-    rank            INTEGER,
+    position        VARCHAR CHECK (position IN ('OG', 'OO', 'CG', 'CO')),
+    team_points     INTEGER CHECK (team_points IN (0, 1, 2, 3)),
+    rank            INTEGER CHECK (rank IN (1, 2, 3, 4)),
     team_score      DOUBLE,
     PRIMARY KEY (debate_id, team_id)
 );

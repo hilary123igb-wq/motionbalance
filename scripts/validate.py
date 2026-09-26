@@ -1,35 +1,49 @@
+import argparse
+import sys
 import duckdb
 
-con = duckdb.connect("motionbalance.duckdb")
+parser = argparse.ArgumentParser()
+parser.add_argument("--db", default="motionbalance.duckdb")
+args = parser.parse_args()
+
+con = duckdb.connect(args.db)
 
 checks = {
-    "bad positions": """
+    "null values in debate_teams": """
         SELECT * FROM debate_teams
-        WHERE position NOT IN ('OG','OO','CG','CO')
+        WHERE position IS NULL OR team_points IS NULL OR rank IS NULL
+           OR team_id IS NULL OR debate_id IS NULL
     """,
-    "bad points": """
+    "bad positions (row-level)": """
         SELECT * FROM debate_teams
-        WHERE team_points NOT IN (0,1,2,3)
+        WHERE position IS NULL OR position NOT IN ('OG','OO','CG','CO')
     """,
-    "bad ranks": """
+    "bad points (row-level)": """
         SELECT * FROM debate_teams
-        WHERE rank NOT IN (1,2,3,4)
+        WHERE team_points IS NULL OR team_points NOT IN (0,1,2,3)
     """,
-    "rank doesn't match points (4 - team_points)": """
+    "bad ranks (row-level)": """
         SELECT * FROM debate_teams
-        WHERE rank != 4 - team_points
+        WHERE rank IS NULL OR rank NOT IN (1,2,3,4)
     """,
-    "duplicate position in one debate": """
-        SELECT debate_id, position, COUNT(*)
-        FROM debate_teams
-        GROUP BY debate_id, position
-        HAVING COUNT(*) > 1
+    "debates without exactly 4 teams (includes debates with zero rows)": """
+        SELECT d.debate_id, COUNT(dt.team_id) AS n_teams
+        FROM debates d
+        LEFT JOIN debate_teams dt ON d.debate_id = dt.debate_id
+        GROUP BY d.debate_id
+        HAVING COUNT(dt.team_id) != 4
     """,
-    "debates without exactly 4 teams": """
-        SELECT debate_id, COUNT(*)
+    "debate positions aren't exactly {OG,OO,CG,CO}": """
+        SELECT debate_id, list_sort(array_agg(position)) AS positions
         FROM debate_teams
         GROUP BY debate_id
-        HAVING COUNT(*) != 4
+        HAVING list_sort(array_agg(position)) != ['CG','CO','OG','OO']
+    """,
+    "debate points aren't a valid 0-3 permutation": """
+        SELECT debate_id, list_sort(array_agg(team_points)) AS points
+        FROM debate_teams
+        GROUP BY debate_id
+        HAVING list_sort(array_agg(team_points)) != [0,1,2,3]
     """,
     "debate_teams referencing a nonexistent team": """
         SELECT dt.* FROM debate_teams dt
@@ -53,4 +67,9 @@ for name, query in checks.items():
         print(f"PASS — {name}")
 
 print()
-print("ALL CHECKS PASSED" if all_passed else "SOME CHECKS FAILED — investigate before trusting the data")
+if all_passed:
+    print("ALL CHECKS PASSED")
+    sys.exit(0)
+else:
+    print("SOME CHECKS FAILED — investigate before trusting the data")
+    sys.exit(1)

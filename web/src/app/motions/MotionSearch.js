@@ -1,5 +1,5 @@
 "use client";
-
+import DOMPurify from "isomorphic-dompurify";
 import { useState } from "react";
 
 export default function MotionSearch({ motions }) {
@@ -57,8 +57,12 @@ export default function MotionSearch({ motions }) {
                   {isOpen ? "Hide infoslide ↑" : "Show infoslide ↓"}
                 </button>
               )}
+
               {isOpen && m.info_slide && (
-                <div className="text-sm text-gray-600 mt-3 bg-gray-50 rounded-xl p-4" dangerouslySetInnerHTML={{ __html: m.info_slide }} />
+                <div
+                  className="text-sm text-gray-600 mt-3 bg-gray-50 rounded-xl p-4"
+                  dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(m.info_slide) }}
+                />
               )}
             </div>
           );

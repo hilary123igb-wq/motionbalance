@@ -4,6 +4,7 @@ SELECT
     COUNT(*) AS n,
     ROUND(AVG(team_points), 3) AS avg_points
 FROM debate_teams
+WHERE position IN ('OG', 'OO', 'CG', 'CO')
 GROUP BY position;
 
 CREATE OR REPLACE VIEW bench_stats AS
@@ -12,6 +13,7 @@ SELECT
     COUNT(*) AS n,
     ROUND(AVG(team_points), 3) AS avg_points
 FROM debate_teams
+WHERE position IN ('OG', 'OO', 'CG', 'CO')
 GROUP BY 1;
 
 CREATE OR REPLACE VIEW half_stats AS
@@ -20,6 +22,7 @@ SELECT
     COUNT(*) AS n,
     ROUND(AVG(team_points), 3) AS avg_points
 FROM debate_teams
+WHERE position IN ('OG', 'OO', 'CG', 'CO')
 GROUP BY 1;
 
 CREATE OR REPLACE VIEW prelim_debate_teams AS
@@ -33,7 +36,8 @@ SELECT
 FROM debate_teams dt
 JOIN debates d ON dt.debate_id = d.debate_id
 JOIN rounds r ON d.round_id = r.round_id
-WHERE r.stage = 'P';
+WHERE r.stage = 'P'
+  AND dt.position IN ('OG', 'OO', 'CG', 'CO');
 
 CREATE OR REPLACE VIEW team_strength AS
 SELECT
