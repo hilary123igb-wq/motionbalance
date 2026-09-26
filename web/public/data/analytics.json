@@ -1,0 +1,146 @@
+{
+  "n_tournaments": 757,
+  "n_debates_in_model": 130541,
+  "position_stats": [
+    {
+      "position": "AFF",
+      "n": 723,
+      "avg_points": 0.498
+    },
+    {
+      "position": "CG",
+      "n": 40577,
+      "avg_points": 1.409
+    },
+    {
+      "position": "CO",
+      "n": 40577,
+      "avg_points": 1.448
+    },
+    {
+      "position": "NEG",
+      "n": 723,
+      "avg_points": 0.502
+    },
+    {
+      "position": "OG",
+      "n": 40577,
+      "avg_points": 1.497
+    },
+    {
+      "position": "OO",
+      "n": 40577,
+      "avg_points": 1.646
+    }
+  ],
+  "bench_stats": [
+    {
+      "bench": "Government",
+      "n": 81154,
+      "avg_points": 1.453
+    },
+    {
+      "bench": "Opposition",
+      "n": 82600,
+      "avg_points": 1.529
+    }
+  ],
+  "half_stats": [
+    {
+      "half": "Closing",
+      "n": 82600,
+      "avg_points": 1.412
+    },
+    {
+      "half": "Opening",
+      "n": 81154,
+      "avg_points": 1.572
+    }
+  ],
+  "government_advantage": -0.076,
+  "opening_advantage": -0.16,
+  "regression": {
+    "leakage_safe": {
+      "r_squared": 0.014,
+      "n_obs": 130541,
+      "coefficients": [
+        {
+          "term": "Intercept",
+          "coef": 1.4951,
+          "p_value": 0.0
+        },
+        {
+          "term": "C(position, Treatment(reference='OG'))[T.AFF]",
+          "coef": -1.0427,
+          "p_value": 0.0
+        },
+        {
+          "term": "C(position, Treatment(reference='OG'))[T.CG]",
+          "coef": -0.0909,
+          "p_value": 0.0
+        },
+        {
+          "term": "C(position, Treatment(reference='OG'))[T.CO]",
+          "coef": -0.057,
+          "p_value": 0.0002
+        },
+        {
+          "term": "C(position, Treatment(reference='OG'))[T.NEG]",
+          "coef": -0.9761,
+          "p_value": 0.0
+        },
+        {
+          "term": "C(position, Treatment(reference='OG'))[T.OO]",
+          "coef": 0.1581,
+          "p_value": 0.0
+        },
+        {
+          "term": "prior_rank_centered",
+          "coef": -0.0007,
+          "p_value": 0.0
+        }
+      ]
+    },
+    "leaky_comparison": {
+      "r_squared": 0.0914,
+      "n_obs": 130541,
+      "coefficients": [
+        {
+          "term": "Intercept",
+          "coef": 1.4968,
+          "p_value": 0.0
+        },
+        {
+          "term": "C(position, Treatment(reference='OG'))[T.AFF]",
+          "coef": -1.2273,
+          "p_value": 0.0
+        },
+        {
+          "term": "C(position, Treatment(reference='OG'))[T.CG]",
+          "coef": -0.0869,
+          "p_value": 0.0
+        },
+        {
+          "term": "C(position, Treatment(reference='OG'))[T.CO]",
+          "coef": -0.0548,
+          "p_value": 0.0002
+        },
+        {
+          "term": "C(position, Treatment(reference='OG'))[T.NEG]",
+          "coef": -1.1702,
+          "p_value": 0.0
+        },
+        {
+          "term": "C(position, Treatment(reference='OG'))[T.OO]",
+          "coef": 0.1512,
+          "p_value": 0.0
+        },
+        {
+          "term": "final_rank_centered",
+          "coef": -0.0096,
+          "p_value": 0.0
+        }
+      ]
+    }
+  }
+}

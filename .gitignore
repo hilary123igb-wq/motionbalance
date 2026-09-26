@@ -1,6 +1,10 @@
 .venv/
-data/raw/*.json
+data/raw/
 __pycache__/
 *.pyc
 *.duckdb
+*.duckdb.wal
 .DS_Store
+.env
+web/node_modules/
+web/.next/

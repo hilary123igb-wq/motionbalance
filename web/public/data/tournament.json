@@ -1,0 +1,13 @@
+{
+  "tournament_id": 3496,
+  "slug": "open",
+  "name": "Panama World Universities Debating Championships 2025 (Open)",
+  "short_name": "WUDC 2025 Open",
+  "source_url": "https://wudc2025.calicotab.com/api/v1/tournaments/open",
+  "teams": 228,
+  "speakers": 454,
+  "rounds_total": 17,
+  "rounds_prelim": 9,
+  "debates_loaded": 474,
+  "motions_total": 17
+}

@@ -8,7 +8,8 @@ DROP TABLE IF EXISTS participants CASCADE;
 DROP TABLE IF EXISTS tournaments CASCADE;
 
 CREATE TABLE tournaments (
-    tournament_id   INTEGER PRIMARY KEY,
+    tournament_id   VARCHAR PRIMARY KEY,   -- "{host}:{raw_id}"
+    host            VARCHAR,               -- which Tabbycat installation
     slug            VARCHAR,
     name            VARCHAR,
     short_name      VARCHAR,
@@ -16,26 +17,26 @@ CREATE TABLE tournaments (
 );
 
 CREATE TABLE participants (
-    participant_id  INTEGER PRIMARY KEY,
+    participant_id  VARCHAR PRIMARY KEY,
     name            VARCHAR,
     anonymous       BOOLEAN
 );
 
 CREATE TABLE teams (
-    team_id         INTEGER PRIMARY KEY,
-    tournament_id   INTEGER REFERENCES tournaments(tournament_id),
+    team_id         VARCHAR PRIMARY KEY,
+    tournament_id   VARCHAR REFERENCES tournaments(tournament_id),
     team_name       VARCHAR
 );
 
 CREATE TABLE team_members (
-    team_id         INTEGER REFERENCES teams(team_id),
-    participant_id  INTEGER REFERENCES participants(participant_id),
+    team_id         VARCHAR REFERENCES teams(team_id),
+    participant_id  VARCHAR REFERENCES participants(participant_id),
     PRIMARY KEY (team_id, participant_id)
 );
 
 CREATE TABLE rounds (
-    round_id        INTEGER PRIMARY KEY,
-    tournament_id   INTEGER REFERENCES tournaments(tournament_id),
+    round_id        VARCHAR PRIMARY KEY,
+    tournament_id   VARCHAR REFERENCES tournaments(tournament_id),
     seq             INTEGER,
     name            VARCHAR,
     stage           VARCHAR,
@@ -43,22 +44,22 @@ CREATE TABLE rounds (
 );
 
 CREATE TABLE motions (
-    motion_id       INTEGER PRIMARY KEY,
+    motion_id       VARCHAR PRIMARY KEY,
     text            VARCHAR,
     reference       VARCHAR,
     info_slide      VARCHAR
 );
 
 CREATE TABLE debates (
-    debate_id       INTEGER PRIMARY KEY,
-    round_id        INTEGER REFERENCES rounds(round_id),
-    motion_id       INTEGER REFERENCES motions(motion_id),
-    venue_id        INTEGER
+    debate_id       VARCHAR PRIMARY KEY,
+    round_id        VARCHAR REFERENCES rounds(round_id),
+    motion_id       VARCHAR REFERENCES motions(motion_id),
+    venue_id        VARCHAR
 );
 
 CREATE TABLE debate_teams (
-    debate_id       INTEGER REFERENCES debates(debate_id),
-    team_id         INTEGER REFERENCES teams(team_id),
+    debate_id       VARCHAR REFERENCES debates(debate_id),
+    team_id         VARCHAR REFERENCES teams(team_id),
     position        VARCHAR,
     team_points     INTEGER,
     rank            INTEGER,
